@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diálogo Sem Conflito - Transforme suas conversas em conexão</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&family=Montserrat:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-coral: #FF6B6B;
+            --soft-pink: #FFE0E0;
+            --deep-purple: #4A154B;
+            --warm-beige: #FFF4ED;
+            --sage-green: #95B99C;
+            --cream: #FFFBF7;
+            --text-dark: #2D2D2D;
+            --text-light: #666666;
+            --accent-gold: #FFB84D;
+            --brown: #5F4634;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--cream);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Floating Navigation Dots */
+        .nav-dots {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(74, 21, 75, 0.3);
+            margin: 15px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-dot.active {
+            background-color: var(--primary-coral);
+            transform: scale(1.5);
+        }
+
+        .nav-dot:hover {
+            transform: scale(1.3);
+        }
+
+        .nav-dot::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--deep-purple);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-dot:hover::before {
+            opacity: 1;
+        }
+
+        /* Header Bar */
+        .header-bar {
+            background-color: var(--brown);
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-bar h3 {
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: linear-gradient(135deg, var(--warm-beige) 0%, var(--soft-pink) 100%);
+            overflow: hidden;
+            padding-top: 80px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ff6b6b' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+            animation: float-bg 20s linear infinite;
+        }
+
+        @keyframes float-bg {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(60px, 60px); }
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 46px;
+            color: var(--deep-purple);
+            margin-bottom: 20px;
+            position: relative;
+            line-height: 1.2;
+        }
+
+        .hero-text h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-coral) 0%, var(--accent-gold) 100%);
+            border-radius: 2px;
+        }
+
+        .hero-text p {
+            font-size: 17px;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .hero-text .emphasis {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 20px 0;
+        }
+
+        .hero-text .subtitle {
+            font-style: italic;
+            font-size: 15px;
+        }
+
+        .hero-visual {
+            position: relative;
+        }
+
+        .hero-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            transform: rotate(-5deg);
+        }
+
+        .emotion-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .emotion-card:nth-child(1) { transform: translate(0, 20px); }
+        .emotion-card:nth-child(2) { transform: translate(0, -20px); }
+        .emotion-card:nth-child(3) { transform: translate(0, 40px); }
+        .emotion-card:nth-child(4) { transform: translate(0, 0); }
+
+        .emotion-card:hover {
+            transform: translateY(-10px) scale(1.05) !important;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .emotion-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .emotion-card h3 {
+            font-size: 18px;
+            color: var(--deep-purple);
+            margin-bottom: 5px;
+        }
+
+        .emotion-card p {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        /* CTA Button */
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-coral) 0%, var(--accent-gold) 100%);
+            color: white;
+            padding: 18px 40px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            margin-top: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .cta-button.dark {
+            background: linear-gradient(135deg, var(--text-dark) 0%, var(--brown) 100%);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Problem Section */
+        .problem-section {
+            padding: 100px 0;
+            background: white;
+            position: relative;
+        }
+
+        .problem-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .problem-section h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 39px;
+            color: var(--text-dark);
+            margin-bottom: 25px;
+        }
+
+        .problem-section ul {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .problem-section li {
+            padding: 10px 0;
+            font-size: 17px;
+            display: flex;
+            align-items: center;
+            color: var(--text-dark);
+        }
+
+        .problem-image {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .problem-image:hover {
+            transform: scale(1.02);
+        }
+
+        .problem-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Solution Section */
+        .solution-section {
+            padding: 100px 0;
+            background: var(--warm-beige);
+            text-align: center;
+        }
+
+        .solution-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 47px;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+
+        .solution-section .subtitle {
+            font-size: 16px;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .solution-section .emphasis {
+            font-style: italic;
+            color: var(--text-dark);
+            margin-bottom: 50px;
+        }
+
+        .ebook-showcase {
+            margin: 50px auto;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .ebook-showcase img {
+            width: 100%;
+            max-width: 542px;
+            height: auto;
+            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.2));
+            transition: transform 0.3s ease;
+        }
+
+        .ebook-showcase:hover img {
+            transform: translateY(-10px);
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-coral) 0%, var(--accent-gold) 100%);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            transform-origin: left;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            width: 110px;
+            height: 110px;
+            margin: 0 auto 20px;
+        }
+
+        .feature-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .feature-card h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        /* Method Section */
+        .method-section {
+            padding: 100px 0;
+            background: linear-gradient(180deg, var(--cream) 0%, white 100%);
+        }
+
+        .method-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .method-header h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 51px;
+            color: var(--text-dark);
+            line-height: 1.2;
+        }
+
+        .method-content {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .method-list {
+            font-size: 19px;
+            line-height: 1.8;
+            color: var(--text-dark);
+        }
+
+        .method-list p {
+            margin-bottom: 15px;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .check-item::before {
+            content: '✅';
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        .method-image img {
+            width: 100%;
+            max-width: 313px;
+            height: auto;
+            margin: 0 auto;
+            display: block;
+        }
+
+        /* Benefits Section */
+        .benefits-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--brown) 0%, #3A2A1F 100%);
+            color: white;
+            position: relative;
+        }
+
+        .benefits-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .benefits-section h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 45px;
+            margin-bottom: 30px;
+        }
+
+        .benefit-item {
+            font-size: 17px;
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .benefit-item::before {
+            content: '🔸';
+            position: absolute;
+            left: 0;
+        }
+
+        .benefits-image img {
+            width: 100%;
+            max-width: 475px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* Bonus Section */
+        .bonus-section {
+            padding: 100px 0;
+            background: linear-gradient(180deg, white 0%, var(--warm-beige) 100%);
+        }
+
+        .bonus-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 46px;
+            color: var(--text-dark);
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .bonus-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .bonus-item {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .bonus-image {
+            width: 340px;
+        }
+
+        .bonus-image img {
+            width: 100%;
+            height: auto;
+        }
+
+        .bonus-content {
+            padding-top: 20px;
+        }
+
+        .bonus-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .bonus-content p {
+            font-size: 16px;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .bonus-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .bonus-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--primary-coral), var(--accent-gold), var(--sage-green));
+            border-radius: 20px;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+
+        .bonus-card:hover::before {
+            opacity: 1;
+        }
+
+        .bonus-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .bonus-icon-wrapper {
+            width: 80px;
+            height: 80px;
+            background: var(--soft-pink);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .bonus-card:hover .bonus-icon-wrapper {
+            background: var(--primary-coral);
+            transform: rotate(-10deg);
+        }
+
+        .bonus-icon-wrapper img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+
+        /* Final CTA */
+        .final-cta {
+            padding: 120px 0;
+            background: var(--deep-purple);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .final-cta::before,
+        .final-cta::after {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+        }
+
+        .final-cta::before {
+            background: radial-gradient(circle, rgba(255, 107, 107, 0.2) 0%, transparent 70%);
+            top: -250px;
+            left: -250px;
+            animation: pulse-bg 4s ease-in-out infinite;
+        }
+
+        .final-cta::after {
+            background: radial-gradient(circle, rgba(255, 184, 77, 0.2) 0%, transparent 70%);
+            bottom: -250px;
+            right: -250px;
+            animation: pulse-bg 4s ease-in-out infinite 2s;
+        }
+
+        @keyframes pulse-bg {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .final-cta-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .final-cta h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 56px;
+            margin-bottom: 20px;
+        }
+
+        .final-cta p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .price-display {
+            margin: 40px 0;
+        }
+
+        .price-current {
+            font-size: 72px;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--primary-coral) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .guarantee-badges {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .guarantee-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-dots {
+                display: none;
+            }
+
+            .hero-content,
+            .problem-content,
+            .method-content,
+            .benefits-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-cards {
+                transform: none;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .bonus-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .bonus-item {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .bonus-image {
+                max-width: 300px;
+                margin: 0 auto;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+        }
+
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s ease;
+        }
+
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        .scroll-indicator svg {
+            width: 30px;
+            height: 30px;
+            fill: var(--deep-purple);
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Dots -->
+    <nav class="nav-dots">
+        <div class="nav-dot active" data-tooltip="Início" data-section="hero"></div>
+        <div class="nav-dot" data-tooltip="Problema" data-section="problem"></div>
+        <div class="nav-dot" data-tooltip="Solução" data-section="solution"></div>
+        <div class="nav-dot" data-tooltip="Método" data-section="method"></div>
+        <div class="nav-dot" data-tooltip="Benefícios" data-section="benefits"></div>
+        <div class="nav-dot" data-tooltip="Bônus" data-section="bonus"></div>
+        <div class="nav-dot" data-tooltip="Garantia" data-section="cta"></div>
+    </nav>
+
+    <!-- Header Bar -->
+    <header class="header-bar">
+        <div class="container">
+            <h3><strong>ATENÇÃO</strong>: ESSE <strong>MÉTODO</strong> TEM TRANSFORMADO A FORMA COMO CENTENAS DE MULHERES SE COMUNICAM COM SEUS PARCEIROS</h3>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text slide-in-left">
+                    <h1><strong>Você sente um frio na barriga só de pensar em ter uma conversa séria com o seu parceiro?</strong></h1>
+                    <p>Você tenta conversar, mas tudo vira briga, silêncio ou mágoa?</p>
+                    <p>Você sente que qualquer tentativa de diálogo termina em portas batendo, frases atravessadas ou, pior ainda, no temido silêncio mortal?</p>
+                    <p>Se isso soa familiar, respira fundo.</p>
+                    <p class="emphasis"><strong>Você não está sozinha!</strong></p>
+                    <p class="subtitle"><em>E, mais importante, existe uma saída que funciona.</em></p>
+                    <a href="#cta" class="cta-button">SIM, EU QUERO SER OUVIDA SEM BRIGAR</a>
+                </div>
+                <div class="hero-visual slide-in-right">
+                    <div class="hero-cards">
+                        <div class="emotion-card">
+                            <div class="emotion-icon">😔</div>
+                            <h3>Frustração</h3>
+                            <p>Suas palavras não são ouvidas</p>
+                        </div>
+                        <div class="emotion-card">
+                            <div class="emotion-icon">😠</div>
+                            <h3>Raiva</h3>
+                            <p>Conversas viram discussões</p>
+                        </div>
+                        <div class="emotion-card">
+                            <div class="emotion-icon">😢</div>
+                            <h3>Tristeza</h3>
+                            <p>Sentindo-se sozinha</p>
+                        </div>
+                        <div class="emotion-card">
+                            <div class="emotion-icon">💕</div>
+                            <h3>Esperança</h3>
+                            <p>Reconexão é possível</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <svg viewBox="0 0 24 24">
+                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem-section" id="problem">
+        <div class="container">
+            <div class="problem-content">
+                <div class="problem-text fade-in">
+                    <h1><strong>Engolir sapo virou rotina...</strong></h1>
+                    <p>Talvez você tenha aprendido que manter a paz é o mesmo que evitar conflito. Mas, na prática, silenciar o que você sente todos os dias cobra um preço alto:</p>
+                    <ul>
+                        <li><strong>🧠 Ressentimento</strong></li>
+                        <li><strong>💬 Afastamento emocional</strong></li>
+                        <li><strong>💔 E o sentimento de estar com alguém... mas se sentindo sozinha.</strong></li>
+                    </ul>
+                    <p>Mariana sabe bem disso.<br>
+                    Depois de 5 anos de relacionamento, ela estava pronta para desistir. <em>Conversas viravam briga e o silêncio viravam distância.</em></p>
+                    <p>Até que ela descobriu um método simples, direto e surpreendentemente eficaz para transformar conversas difíceis em momentos de conexão real.</p>
+                    <p>O resultado?<br>
+                    Eles se reconectaram!<br>
+                    sem DRs eternas, sem terapia de casal</p>
+                    <a href="#cta" class="cta-button">SIM, EU QUERO SER OUVIDA SEM BRIGAR</a>
+                </div>
+                <div class="problem-image fade-in">
+                    <img src="./Página de captura_files/6861f6bc7f505_WhatsAppImage2025-06-29at21.48.36.jpeg" alt="Casal em harmonia">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="solution-section" id="solution">
+        <div class="container">
+            <div class="fade-in">
+                <h3><strong>Conheça o ebook "Diálogo Sem Conflito"</strong></h3>
+                <p class="subtitle">Um guia direto, prático e emocionalmente inteligente para transformar tensões em conversas de reconexão.</p>
+                <p class="emphasis"><em>Sem precisar virar outra pessoa, sem se calar, e sem </em><strong><em>"fingir maturidade zen"</em></strong></p>
+            </div>
+            
+            <div class="ebook-showcase fade-in">
+                <img src="./Página de captura_files/68620a8c8bcb3_DIALOGOSEMCONFLITO.png" alt="Ebook Diálogo Sem Conflito">
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <img src="./Página de captura_files/6862f8264fd9e_2.png" alt="Técnicas simples">
+                    </div>
+                    <h4><strong>Técnicas simples de serem aplicadas</strong></h4>
+                    <p>Metodologia direto ao ponto, desenvolvido especialmente para quem busca resultados rápidos e eficientes.</p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <img src="./Página de captura_files/6862f8054d83e_1.png" alt="Escrito por mulher">
+                    </div>
+                    <h4><strong>Escrito por uma mulher que viveu o problema na pele</strong></h4>
+                    <p>Conheça a perspectiva de quem entende seus desafios e oferece soluções reais.</p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <img src="./Página de captura_files/6862f83664adf_3.png" alt="Sem blá-blá-blá">
+                    </div>
+                    <h4><strong>Sem blá-blá-blá técnico ou linguagem de coach</strong></h4>
+                    <p>Conteúdo prático, com linguagem simples e objetiva, livre de jargões e promessas vazias.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Method Section -->
+    <section class="method-section" id="method">
+        <div class="container">
+            <div class="method-header fade-in">
+                <h3>O Coração da Transformação: <br><br><strong>A Fórmula C.O.N.E.X.Ã.O.</strong></h3>
+            </div>
+            <div class="method-content">
+                <div class="method-text fade-in">
+                    <div class="method-list">
+                        <p>Você vai aprender uma <strong>metodologia prática</strong> que ensina como:</p>
+                        <div class="check-item">Se preparar emocionalmente antes da conversa</div>
+                        <div class="check-item">Falar o que sente sem soar como cobrança (com a técnica <em>S.E.N.T.I.R.</em>)</div>
+                        <div class="check-item">Ouvir com empatia real, mesmo em momentos tensos</div>
+                        <div class="check-item">Encontrar soluções sem "ganhadores e perdedores"</div>
+                        <div class="check-item">Sair da conversa com leveza e conexão e não com <strong>Arrependimento</strong></div>
+                    </div>
+                    <a href="#cta" class="cta-button dark">QUERO USAR A FÓRMULA C.O.N.E.X.Ã.O. NA PRÁTICA</a>
+                </div>
+                <div class="method-image fade-in">
+                    <img src="./Página de captura_files/68620ff7008ea_CONEXAO.png" alt="Fórmula CONEXÃO">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits-section" id="benefits">
+        <div class="container">
+            <div class="benefits-content">
+                <div class="benefits-text fade-in">
+                    <h1><strong>Você Vai Entender:</strong></h1>
+                    <div class="benefit-item">Por que evita certas conversas e como superar isso</div>
+                    <div class="benefit-item">Como os padrões da sua infância sabotam sua comunicação hoje</div>
+                    <div class="benefit-item">Como quebrar o ciclo de mágoas acumuladas, sem precisar "revirar o passado"</div>
+                    <a href="#cta" class="cta-button">EU QUERO ENTENDER</a>
+                </div>
+                <div class="benefits-image fade-in">
+                    <img src="./Página de captura_files/686208249d4c3_MULHER.png" alt="Mulher confiante">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bonus Section -->
+    <section class="bonus-section" id="bonus">
+        <div class="container">
+            <h2 class="fade-in"><strong>Além do <em>Método</em>, Você Recebe:</strong></h2>
+            
+            <div class="bonus-grid">
+                <div class="bonus-card fade-in">
+                    <div class="bonus-icon-wrapper">
+                        <img src="./Página de captura_files/686210b1e3dca_CHECKLIST.png" alt="Checklist">
+                    </div>
+                    <h3><strong>🎯 Checklist de Conversa Difícil</strong></h3>
+                    <p>Um guia passo a passo para se preparar antes daquela conversa importante</p>
+                </div>
+                
+                <div class="bonus-card fade-in">
+                    <div class="bonus-icon-wrapper">
+                        <img src="./Página de captura_files/6862114db9105_SENTIR.png" alt="Técnica SENTIR">
+                    </div>
+                    <h3><strong>💫 Guia S.E.N.T.I.R.</strong></h3>
+                    <p>Com exemplos práticos, templates prontos e exercícios de desenvolvimento emocional</p>
+                </div>
+                
+                <div class="bonus-card fade-in">
+                    <div class="bonus-icon-wrapper">
+                        <img src="./Página de captura_files/6862146d42475_CALENDARIO.png" alt="Calendário">
+                    </div>
+                    <h3><strong>📅 Calendário de Reconexão de 30 dias</strong></h3>
+                    <p>30 micro-ações diárias (5 minutos!) para fortalecer a comunicação sem pressão</p>
+                </div>
+                
+                <div class="bonus-card fade-in">
+                    <div class="bonus-icon-wrapper">
+                        <img src="./Página de captura_files/68621f3898eb9_ChatGPTImage30dejun.de202502_22_29.png" alt="Mulher Segura">
+                    </div>
+                    <h3><strong>🎬 Aula Bônus: Como Ser uma Mulher Segura de Si Mesma</strong></h3>
+                    <p>60 minutos de conteúdo transformador sobre autoconfiança feminina</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta" id="cta">
+        <div class="container">
+            <div class="final-cta-content">
+                <h2 class="fade-in">É hora de parar de engolir sapo e começar a ser ouvida de verdade</h2>
+                <p class="fade-in">Transforme suas conversas difíceis em oportunidades de conexão genuína</p>
+                
+                <div class="price-display fade-in">
+                    <div class="price-current">R$ 37</div>
+                    <p>Acesso vitalício + Todos os bônus</p>
+                </div>
+                
+                <a href="#" class="cta-button fade-in">QUERO TRANSFORMAR MINHA COMUNICAÇÃO AGORA</a>
+                
+                <div class="guarantee-badges">
+                    <div class="guarantee-badge fade-in">
+                        <svg fill="currentColor" viewBox="0 0 20 20" width="24" height="24">
+                            <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/>
+                        </svg>
+                        <span>Compra 100% Segura</span>
+                    </div>
+                    <div class="guarantee-badge fade-in">
+                        <svg fill="currentColor" viewBox="0 0 20 20" width="24" height="24">
+                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                        </svg>
+                        <span>Acesso Imediato por E-mail</span>
+                    </div>
+                    <div class="guarantee-badge fade-in">
+                        <svg fill="currentColor" viewBox="0 0 20 20" width="24" height="24">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"/>
+                        </svg>
+                        <span>Acesso Vitalício</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Navigation dots functionality
+        const sections = document.querySelectorAll('section[id]');
+        const navDots = document.querySelectorAll('.nav-dot');
+
+        navDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const sectionId = dot.getAttribute('data-section');
+                document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Update active nav dot on scroll
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navDots.forEach(dot => {
+                dot.classList.remove('active');
+                if (dot.getAttribute('data-section') === current) {
+                    dot.classList.add('active');
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animated elements
+        document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scroll for CTA buttons
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Parallax effect for hero cards
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroCards = document.querySelector('.hero-cards');
+            if (heroCards && scrolled < window.innerHeight) {
+                heroCards.style.transform = `rotate(-5deg) translateY(${scrolled * 0.2}px)`;
+            }
+        });
+    </script>
+</body>
+</html>

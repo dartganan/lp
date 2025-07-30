@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diálogo Sem Conflito | Reconecte-se Através da Comunicação</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-coral: #FF6B6B;
+            --soft-pink: #FFE0E0;
+            --deep-purple: #4A154B;
+            --warm-beige: #FFF4ED;
+            --sage-green: #95B99C;
+            --cream: #FFFBF7;
+            --text-dark: #2D2D2D;
+            --text-light: #666666;
+            --accent-gold: #FFB84D;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--cream);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Floating Navigation Dots */
+        .nav-dots {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(74, 21, 75, 0.3);
+            margin: 15px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-dot.active {
+            background-color: var(--primary-coral);
+            transform: scale(1.5);
+        }
+
+        .nav-dot:hover {
+            transform: scale(1.3);
+        }
+
+        .nav-dot::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--deep-purple);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-dot:hover::before {
+            opacity: 1;
+        }
+
+        /* Hero Section with Split Design */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: linear-gradient(135deg, var(--warm-beige) 0%, var(--soft-pink) 100%);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ff6b6b' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+            animation: float-bg 20s linear infinite;
+        }
+
+        @keyframes float-bg {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(60px, 60px); }
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: var(--deep-purple);
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .hero-text h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-coral) 0%, var(--accent-gold) 100%);
+            border-radius: 2px;
+        }
+
+        .hero-visual {
+            position: relative;
+        }
+
+        .hero-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            transform: rotate(-5deg);
+        }
+
+        .emotion-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .emotion-card:nth-child(1) { transform: translate(0, 20px); }
+        .emotion-card:nth-child(2) { transform: translate(0, -20px); }
+        .emotion-card:nth-child(3) { transform: translate(0, 40px); }
+        .emotion-card:nth-child(4) { transform: translate(0, 0); }
+
+        .emotion-card:hover {
+            transform: translateY(-10px) scale(1.05) !important;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .emotion-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .emotion-card h3 {
+            font-size: 18px;
+            color: var(--deep-purple);
+            margin-bottom: 5px;
+        }
+
+        .emotion-card p {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        /* Interactive CTA Button */
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-coral) 0%, var(--accent-gold) 100%);
+            color: white;
+            padding: 18px 40px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            margin-top: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Story Section with Timeline */
+        .story-section {
+            padding: 100px 0;
+            background: white;
+            position: relative;
+        }
+
+        .story-timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--primary-coral) 0%, var(--sage-green) 100%);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 60px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            flex: 1;
+            padding: 30px;
+            background: var(--warm-beige);
+            border-radius: 20px;
+            margin: 0 40px;
+            position: relative;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-coral);
+            border: 4px solid white;
+            border-radius: 50%;
+            left: 50%;
+            top: 40px;
+            transform: translateX(-50%);
+            z-index: 1;
+            box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.2);
+        }
+
+        .timeline-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        /* Method Cards with Hover Effects */
+        .method-section {
+            padding: 100px 0;
+            background: linear-gradient(180deg, var(--cream) 0%, white 100%);
+        }
+
+        .method-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .method-title h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 48px;
+            color: var(--deep-purple);
+            margin-bottom: 20px;
+        }
+
+        .method-title .subtitle {
+            font-size: 20px;
+            color: var(--primary-coral);
+            font-weight: 500;
+        }
+
+        .method-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .method-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .method-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-coral) 0%, var(--accent-gold) 100%);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            transform-origin: left;
+        }
+
+        .method-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .method-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .method-letter {
+            width: 60px;
+            height: 60px;
+            background: var(--soft-pink);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-coral);
+            transition: all 0.3s ease;
+        }
+
+        .method-card:hover .method-letter {
+            background: var(--primary-coral);
+            color: white;
+            transform: rotate(360deg);
+        }
+
+        /* Testimonial Section with Carousel */
+        .testimonial-section {
+            padding: 100px 0;
+            background: var(--deep-purple);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonial-section::before {
+            content: '"';
+            position: absolute;
+            top: -50px;
+            left: 50px;
+            font-size: 300px;
+            font-family: 'DM Serif Display', serif;
+            opacity: 0.1;
+        }
+
+        .testimonial-carousel {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+        }
+
+        .testimonial-slide {
+            opacity: 0;
+            position: absolute;
+            width: 100%;
+            transition: opacity 0.6s ease;
+        }
+
+        .testimonial-slide.active {
+            opacity: 1;
+            position: relative;
+        }
+
+        .testimonial-text {
+            font-size: 24px;
+            font-style: italic;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .testimonial-author {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent-gold);
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 40px;
+        }
+
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-dot.active {
+            background: var(--accent-gold);
+            transform: scale(1.5);
+        }
+
+        /* Bonus Section with Interactive Cards */
+        .bonus-section {
+            padding: 100px 0;
+            background: linear-gradient(180deg, white 0%, var(--warm-beige) 100%);
+        }
+
+        .bonus-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .bonus-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .bonus-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--primary-coral), var(--accent-gold), var(--sage-green));
+            border-radius: 20px;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+
+        .bonus-card:hover::before {
+            opacity: 1;
+        }
+
+        .bonus-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .bonus-icon-wrapper {
+            width: 80px;
+            height: 80px;
+            background: var(--soft-pink);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .bonus-card:hover .bonus-icon-wrapper {
+            background: var(--primary-coral);
+            transform: rotate(-10deg);
+        }
+
+        .bonus-icon {
+            font-size: 36px;
+            transition: all 0.3s ease;
+        }
+
+        .bonus-card:hover .bonus-icon {
+            color: white;
+            transform: scale(1.2);
+        }
+
+        /* Final CTA with Animated Background */
+        .final-cta {
+            padding: 120px 0;
+            background: var(--deep-purple);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .final-cta::before,
+        .final-cta::after {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+        }
+
+        .final-cta::before {
+            background: radial-gradient(circle, rgba(255, 107, 107, 0.2) 0%, transparent 70%);
+            top: -250px;
+            left: -250px;
+            animation: pulse-bg 4s ease-in-out infinite;
+        }
+
+        .final-cta::after {
+            background: radial-gradient(circle, rgba(255, 184, 77, 0.2) 0%, transparent 70%);
+            bottom: -250px;
+            right: -250px;
+            animation: pulse-bg 4s ease-in-out infinite 2s;
+        }
+
+        @keyframes pulse-bg {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .final-cta-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .price-display {
+            margin: 40px 0;
+        }
+
+        .price-original {
+            text-decoration: line-through;
+            opacity: 0.6;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .price-current {
+            font-size: 72px;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--primary-coral) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .price-badge {
+            display: inline-block;
+            background: var(--primary-coral);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 40px;
+            animation: shake 2s ease-in-out infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        .guarantee-badges {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .guarantee-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.8;
+        }
+
+        .guarantee-badge svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-dots {
+                display: none;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-cards {
+                transform: none;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .timeline-item,
+            .timeline-item:nth-child(even) {
+                flex-direction: column;
+            }
+
+            .timeline-line {
+                left: 20px;
+            }
+
+            .timeline-dot {
+                left: 20px;
+            }
+
+            .timeline-content {
+                margin-left: 60px;
+                margin-right: 0;
+            }
+
+            .bonus-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .guarantee-badges {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Loading Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+        }
+
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s ease;
+        }
+
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Smooth scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        .scroll-indicator svg {
+            width: 30px;
+            height: 30px;
+            fill: var(--deep-purple);
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Dots -->
+    <nav class="nav-dots">
+        <div class="nav-dot active" data-tooltip="Início" data-section="hero"></div>
+        <div class="nav-dot" data-tooltip="História" data-section="story"></div>
+        <div class="nav-dot" data-tooltip="Método" data-section="method"></div>
+        <div class="nav-dot" data-tooltip="Depoimentos" data-section="testimonials"></div>
+        <div class="nav-dot" data-tooltip="Bônus" data-section="bonus"></div>
+        <div class="nav-dot" data-tooltip="Garantia" data-section="cta"></div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text slide-in-left">
+                    <h1>Transforme Conflitos em Conexão Genuína</h1>
+                    <p>Descubra como ter conversas difíceis sem brigas, ressentimentos ou portas batendo. Um método desenvolvido por quem viveu na pele a dor do silêncio em um relacionamento.</p>
+                    <a href="#cta" class="cta-button">Quero Aprender a Me Comunicar Melhor</a>
+                </div>
+                <div class="hero-visual slide-in-right">
+                    <div class="hero-cards">
+                        <div class="emotion-card">
+                            <div class="emotion-icon">😔</div>
+                            <h3>Frustração</h3>
+                            <p>Suas palavras não são ouvidas</p>
+                        </div>
+                        <div class="emotion-card">
+                            <div class="emotion-icon">😠</div>
+                            <h3>Raiva</h3>
+                            <p>Conversas viram discussões</p>
+                        </div>
+                        <div class="emotion-card">
+                            <div class="emotion-icon">😢</div>
+                            <h3>Tristeza</h3>
+                            <p>Sentindo-se sozinha</p>
+                        </div>
+                        <div class="emotion-card">
+                            <div class="emotion-icon">💕</div>
+                            <h3>Esperança</h3>
+                            <p>Reconexão é possível</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <svg viewBox="0 0 24 24">
+                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story Section -->
+    <section class="story-section" id="story">
+        <div class="container">
+            <div class="text-center fade-in">
+                <h2 style="font-family: 'DM Serif Display', serif; font-size: 48px; color: var(--deep-purple); margin-bottom: 20px;">Uma História Familiar Demais</h2>
+                <p style="font-size: 18px; color: var(--text-light); max-width: 600px; margin: 0 auto 60px;">Cada fase conta uma parte da jornada que talvez você também esteja vivendo...</p>
+            </div>
+            
+            <div class="story-timeline">
+                <div class="timeline-line"></div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-icon">💔</div>
+                        <h3>O Início do Silêncio</h3>
+                        <p>"Depois de anos juntos, percebi que havia parado de falar sobre o que realmente importava. Era mais fácil engolir sapo do que arriscar outra briga."</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-icon">🔄</div>
+                        <h3>O Ciclo Vicioso</h3>
+                        <p>"Tentava conversar → Ele se fechava → Eu insistia → Virava briga → Dias de silêncio → Fingíamos que nada aconteceu. Repetir."</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-icon">💡</div>
+                        <h3>A Descoberta</h3>
+                        <p>"Foi quando descobri que o problema não era O QUE eu falava, mas COMO eu falava. E mais: como eu ESCUTAVA também."</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-icon">🌟</div>
+                        <h3>A Transformação</h3>
+                        <p>"Hoje, temos conversas profundas sem medo. Discordamos sem brigar. E o mais importante: nos sentimos ouvidos e compreendidos."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Method Section -->
+    <section class="method-section" id="method">
+        <div class="container">
+            <div class="method-title fade-in">
+                <h2>A Fórmula C.O.N.E.X.Ã.O.</h2>
+                <p class="subtitle">7 passos práticos para transformar qualquer conversa difícil em oportunidade de aproximação</p>
+            </div>
+            
+            <div class="method-cards">
+                <div class="method-card fade-in">
+                    <div class="method-letter">C</div>
+                    <h3>Clareza</h3>
+                    <p>Entenda exatamente o que você quer comunicar antes de começar a falar</p>
+                </div>
+                
+                <div class="method-card fade-in">
+                    <div class="method-letter">O</div>
+                    <h3>Observação</h3>
+                    <p>Aprenda a ler os sinais não-verbais e escolher o momento certo</p>
+                </div>
+                
+                <div class="method-card fade-in">
+                    <div class="method-letter">N</div>
+                    <h3>Neutralidade</h3>
+                    <p>Fale sem acusar, julgar ou atacar - técnicas práticas incluídas</p>
+                </div>
+                
+                <div class="method-card fade-in">
+                    <div class="method-letter">E</div>
+                    <h3>Empatia</h3>
+                    <p>Ouça de verdade, mesmo quando discorda completamente</p>
+                </div>
+                
+                <div class="method-card fade-in">
+                    <div class="method-letter">X</div>
+                    <h3>eXpressão</h3>
+                    <p>Use a técnica S.E.N.T.I.R. para expressar sentimentos sem parecer cobrança</p>
+                </div>
+                
+                <div class="method-card fade-in">
+                    <div class="method-letter">Ã</div>
+                    <h3>Ação</h3>
+                    <p>Transforme a conversa em acordos práticos e realizáveis</p>
+                </div>
+                
+                <div class="method-card fade-in">
+                    <div class="method-letter">O</div>
+                    <h3>Otimismo</h3>
+                    <p>Encerre sempre com leveza e esperança para o futuro</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial Section -->
+    <section class="testimonial-section" id="testimonials">
+        <div class="container">
+            <h2 style="text-align: center; font-family: 'DM Serif Display', serif; font-size: 48px; margin-bottom: 60px;">Mulheres Reais, Transformações Reais</h2>
+            
+            <div class="testimonial-carousel">
+                <div class="testimonial-slide active">
+                    <p class="testimonial-text">"Depois de 12 anos de casamento, achei que era tarde demais para mudar nossa forma de conversar. O método me provou o contrário. Hoje conversamos sobre tudo, até finanças!"</p>
+                    <p class="testimonial-author">— Marina, 38 anos</p>
+                </div>
+                
+                <div class="testimonial-slide">
+                    <p class="testimonial-text">"Eu era a rainha do 'tá tudo bem' quando na verdade estava tudo errado. Aprendi a falar o que sinto sem medo de ser julgada ou abandonada."</p>
+                    <p class="testimonial-author">— Carla, 29 anos</p>
+                </div>
+                
+                <div class="testimonial-slide">
+                    <p class="testimonial-text">"A técnica S.E.N.T.I.R. salvou meu namoro. Simples assim. Parei de fazer cobranças disfarçadas e comecei a ter conversas honestas."</p>
+                    <p class="testimonial-author">— Juliana, 25 anos</p>
+                </div>
+            </div>
+            
+            <div class="carousel-dots">
+                <span class="carousel-dot active" data-slide="0"></span>
+                <span class="carousel-dot" data-slide="1"></span>
+                <span class="carousel-dot" data-slide="2"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bonus Section -->
+    <section class="bonus-section" id="bonus">
+        <div class="container">
+            <div class="text-center fade-in">
+                <h2 style="font-family: 'DM Serif Display', serif; font-size: 48px; color: var(--deep-purple); margin-bottom: 20px;">Além do Método Principal</h2>
+                <p style="font-size: 18px; color: var(--text-light);">Ferramentas práticas para acelerar sua transformação</p>
+            </div>
+            
+            <div class="bonus-grid">
+                <div class="bonus-card fade-in">
+                    <div class="bonus-icon-wrapper">
+                        <span class="bonus-icon">📋</span>
+                    </div>
+                    <h3>Checklist de Conversa Difícil</h3>
+                    <p>Um guia passo a passo para se preparar emocionalmente antes daquela conversa importante. Nunca mais seja pega de surpresa.</p>
+                </div>
+                
+                <div class="bonus-card fade-in">
+                    <div class="bonus-icon-wrapper">
+                        <span class="bonus-icon">💡</span>
+                    </div>
+                    <h3>Técnica S.E.N.T.I.R. Detalhada</h3>
+                    <p>O framework completo para expressar sentimentos sem soar como cobrança. Com exemplos práticos e exercícios.</p>
+                </div>
+                
+                <div class="bonus-card fade-in">
+                    <div class="bonus-icon-wrapper">
+                        <span class="bonus-icon">📅</span>
+                    </div>
+                    <h3>30 Dias de Micro-Conexões</h3>
+                    <p>Um calendário com pequenas ações diárias para fortalecer a comunicação. 5 minutos por dia para transformar seu relacionamento.</p>
+                </div>
+                
+                <div class="bonus-card fade-in">
+                    <div class="bonus-icon-wrapper">
+                        <span class="bonus-icon">🎥</span>
+                    </div>
+                    <h3>Aula: Mulher Segura se Comunica Melhor</h3>
+                    <p>60 minutos de conteúdo em vídeo sobre como desenvolver autoestima inabalável e se comunicar com confiança.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta" id="cta">
+        <div class="container">
+            <div class="final-cta-content">
+                <h2 style="font-family: 'DM Serif Display', serif; font-size: 56px; margin-bottom: 20px;" class="fade-in">Chegou a Hora de Escolher</h2>
+                <p style="font-size: 20px; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;" class="fade-in">Você pode continuar engolindo sapos e acumulando mágoas... Ou pode aprender a se comunicar de verdade.</p>
+                
+                <div class="price-display fade-in">
+                    <div class="price-original">de R$ 97,00</div>
+                    <div class="price-current">R$ 37</div>
+                    <div class="price-badge">OFERTA ESPECIAL</div>
+                </div>
+                
+                <a href="#" class="cta-button" style="font-size: 20px; padding: 22px 50px;">QUERO TRANSFORMAR MINHA COMUNICAÇÃO AGORA</a>
+                
+                <div class="guarantee-badges">
+                    <div class="guarantee-badge fade-in">
+                        <svg fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/>
+                        </svg>
+                        <span>Compra 100% Segura</span>
+                    </div>
+                    <div class="guarantee-badge fade-in">
+                        <svg fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                        </svg>
+                        <span>Acesso Imediato por E-mail</span>
+                    </div>
+                    <div class="guarantee-badge fade-in">
+                        <svg fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"/>
+                        </svg>
+                        <span>Acesso Vitalício</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Navigation dots functionality
+        const sections = document.querySelectorAll('section[id]');
+        const navDots = document.querySelectorAll('.nav-dot');
+
+        navDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const sectionId = dot.getAttribute('data-section');
+                document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Update active nav dot on scroll
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navDots.forEach(dot => {
+                dot.classList.remove('active');
+                if (dot.getAttribute('data-section') === current) {
+                    dot.classList.add('active');
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Special handling for timeline items
+                    if (entry.target.classList.contains('timeline-item')) {
+                        const timelineItems = document.querySelectorAll('.timeline-item');
+                        timelineItems.forEach((item, index) => {
+                            setTimeout(() => {
+                                item.classList.add('visible');
+                            }, index * 200);
+                        });
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animated elements
+        document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .timeline-item').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Testimonial carousel
+        const testimonialSlides = document.querySelectorAll('.testimonial-slide');
+        const carouselDots = document.querySelectorAll('.carousel-dot');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            testimonialSlides.forEach(slide => slide.classList.remove('active'));
+            carouselDots.forEach(dot => dot.classList.remove('active'));
+            
+            testimonialSlides[index].classList.add('active');
+            carouselDots[index].classList.add('active');
+        }
+
+        carouselDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentSlide = index;
+                showSlide(currentSlide);
+            });
+        });
+
+        // Auto-advance carousel
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % testimonialSlides.length;
+            showSlide(currentSlide);
+        }, 5000);
+
+        // Smooth scroll for CTA buttons
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Parallax effect for hero cards
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroCards = document.querySelector('.hero-cards');
+            if (heroCards && scrolled < window.innerHeight) {
+                heroCards.style.transform = `rotate(-5deg) translateY(${scrolled * 0.2}px)`;
+            }
+        });
+
+        // Add hover sound effect (optional - requires audio file)
+        const emotionCards = document.querySelectorAll('.emotion-card');
+        emotionCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                // You could add a subtle sound effect here
+            });
+        });
+    </script>
+</body>
+</html>
