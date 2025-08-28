@@ -1,869 +1,796 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
+<html><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diálogo Sem Conflito - Transforme suas conversas em conexão</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script><script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif']
+            }
+          }
+        }
+      };
+    </script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Roboto', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1120px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header Section */
-        .header {
-            background-color: #5F4634;
-            color: white;
-            padding: 15px 0;
-            text-align: center;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .header h3 {
-            font-family: 'Roboto', sans-serif;
-            font-size: 14px;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, #8B7355 0%, #5F4634 100%);
-            padding: 120px 0 80px;
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
-            animation: float 20s infinite ease-in-out;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(30px, -30px) rotate(120deg); }
-            66% { transform: translate(-20px, 20px) rotate(240deg); }
-        }
-
-        .hero-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            align-items: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 46px;
-            margin-bottom: 20px;
-            line-height: 1.2;
-            animation: fadeInUp 0.8s ease-out;
-        }
-
-        .hero p {
-            font-size: 17px;
-            margin-bottom: 15px;
-            opacity: 0.95;
-            animation: fadeInUp 0.8s ease-out 0.2s both;
-        }
-
-        .hero .emphasis {
-            font-size: 16px;
-            font-weight: 700;
-            margin: 20px 0;
-            animation: fadeInUp 0.8s ease-out 0.4s both;
-        }
-
-        .hero .subtitle {
-            font-style: italic;
-            font-size: 15px;
-            opacity: 0.9;
-            animation: fadeInUp 0.8s ease-out 0.6s both;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* CTA Button */
-        .cta-button {
-            display: inline-block;
-            background-color: #D4A574;
-            color: white;
-            padding: 18px 35px;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
-            font-size: 16px;
-            text-decoration: none;
-            border-radius: 50px;
-            margin-top: 30px;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            animation: fadeInUp 0.8s ease-out 0.8s both;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.2);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .cta-button:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-        }
-
-        /* Problem Section */
-        .problem-section {
-            padding: 80px 0;
-            background-color: #FDF6F0;
-        }
-
-        .problem-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            align-items: center;
-        }
-
-        .problem-section h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 39px;
-            color: #333;
-            margin-bottom: 25px;
-        }
-
-        .problem-section ul {
-            list-style: none;
-            margin: 20px 0;
-        }
-
-        .problem-section li {
-            padding: 10px 0;
-            font-size: 17px;
-            display: flex;
-            align-items: center;
-        }
-
-        .problem-section li::before {
-            content: '';
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background-color: #D4A574;
-            border-radius: 50%;
-            margin-right: 15px;
-        }
-
-        .problem-image {
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .problem-image:hover {
-            transform: scale(1.02);
-        }
-
-        .problem-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        /* Solution Section */
-        .solution-section {
-            padding: 80px 0;
-            background-color: white;
-            text-align: center;
-        }
-
-        .solution-section h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 47px;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .solution-section .subtitle {
-            font-size: 16px;
-            color: #666;
-            margin-bottom: 10px;
-        }
-
-        .solution-section .emphasis {
-            font-style: italic;
-            color: #5F4634;
-            margin-bottom: 50px;
-        }
-
-        .ebook-showcase {
-            margin: 50px auto;
-            max-width: 600px;
-            position: relative;
-        }
-
-        .ebook-showcase img {
-            width: 100%;
-            max-width: 542px;
-            height: auto;
-            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.2));
-            transition: transform 0.3s ease;
-        }
-
-        .ebook-showcase:hover img {
-            transform: translateY(-10px);
-        }
-
-        /* Features Grid */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-            margin-top: 60px;
-        }
-
-        .feature-card {
-            background-color: #FDF6F0;
-            padding: 40px 30px;
-            border-radius: 15px;
-            text-align: center;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, #D4A574 0%, #8B7355 100%);
-            transform: translateX(-100%);
-            transition: transform 0.3s ease;
-        }
-
-        .feature-card:hover::before {
-            transform: translateX(0);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        .feature-icon {
-            width: 110px;
-            height: 110px;
-            margin: 0 auto 20px;
-        }
-
-        .feature-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .feature-card h4 {
-            font-family: 'Playfair Display', serif;
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        .feature-card p {
-            font-size: 16px;
-            color: #666;
-            line-height: 1.5;
-        }
-
-        /* Method Section */
-        .method-section {
-            padding: 80px 0;
-            background: linear-gradient(135deg, #FDF6F0 0%, #F5E6D3 100%);
-        }
-
-        .method-content {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 50px;
-            align-items: center;
-        }
-
-        .method-section h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 51px;
-            color: #333;
-            margin-bottom: 30px;
-            line-height: 1.2;
-        }
-
-        .method-list {
-            font-size: 19px;
-            line-height: 1.8;
-            color: #333;
-        }
-
-        .method-list p {
-            margin-bottom: 15px;
-        }
-
-        .check-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 15px;
-        }
-
-        .check-item::before {
-            content: '✓';
-            color: #D4A574;
-            font-weight: bold;
-            margin-right: 10px;
-            font-size: 20px;
-        }
-
-        .method-image img {
-            width: 100%;
-            max-width: 313px;
-            height: auto;
-            margin: 0 auto;
-            display: block;
-        }
-
-        /* Benefits Section */
-        .benefits-section {
-            padding: 80px 0;
-            background: linear-gradient(135deg, #5F4634 0%, #3A2A1F 100%);
-            color: white;
-            position: relative;
-        }
-
-        .benefits-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            align-items: center;
-        }
-
-        .benefits-section h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 45px;
-            margin-bottom: 30px;
-        }
-
-        .benefit-item {
-            font-size: 17px;
-            margin-bottom: 15px;
-            padding-left: 25px;
-            position: relative;
-        }
-
-        .benefit-item::before {
-            content: '🔸';
-            position: absolute;
-            left: 0;
-        }
-
-        .benefits-image img {
-            width: 100%;
-            max-width: 475px;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        /* Bonus Section */
-        .bonus-section {
-            padding: 80px 0;
-            background-color: white;
-        }
-
-        .bonus-section h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 46px;
-            color: #333;
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .bonus-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 40px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .bonus-item {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            padding: 30px;
-            background-color: #FDF6F0;
-            border-radius: 15px;
-            transition: all 0.3s ease;
-        }
-
-        .bonus-item:hover {
-            transform: translateX(10px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
-
-        .bonus-icon {
-            flex-shrink: 0;
-        }
-
-        .bonus-icon img {
-            width: 100px;
-            height: 100px;
-            object-fit: contain;
-        }
-
-        .bonus-content h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .bonus-content p {
-            font-size: 16px;
-            color: #666;
-        }
-
-        /* Final CTA Section */
-        .final-cta {
-            padding: 100px 0;
-            background: linear-gradient(135deg, #D4A574 0%, #8B7355 100%);
-            text-align: center;
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .final-cta::before,
-        .final-cta::after {
-            content: '';
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.05);
-        }
-
-        .final-cta::before {
-            top: -150px;
-            left: -150px;
-        }
-
-        .final-cta::after {
-            bottom: -150px;
-            right: -150px;
-        }
-
-        .final-cta-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .final-cta h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
-
-        .final-cta p {
-            font-size: 20px;
-            margin-bottom: 40px;
-            opacity: 0.95;
-        }
-
-        .price-box {
-            background-color: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 500px;
-            margin: 0 auto 40px;
-            border: 2px solid rgba(255,255,255,0.2);
-        }
-
-        .price {
-            font-size: 72px;
-            font-weight: bold;
-            font-family: 'Montserrat', sans-serif;
-            margin-bottom: 10px;
-        }
-
-        .price-info {
-            font-size: 18px;
-            opacity: 0.9;
-        }
-
-        .final-cta .cta-button {
-            background-color: white;
-            color: #5F4634;
-            font-size: 18px;
-            padding: 20px 40px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .hero-content,
-            .problem-content,
-            .method-content,
-            .benefits-content {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-
-            .hero h1 {
-                font-size: 32px;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-
-            .bonus-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .bonus-item {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .method-section h3,
-            .final-cta h2 {
-                font-size: 36px;
-            }
-
-            .price {
-                font-size: 56px;
-            }
-        }
-
-        /* Loading Animation */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        ::-webkit-scrollbar { display: none;}
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+        .text-bordeaux { color: #73262D; }
+        .bg-rose-tea { background-color: #F5E6E8; }
+        .bg-champagne { background-color: #FAF3EB; }
+        .text-gold { color: #D4AF7F; }
+        .bg-gold { background-color: #D4AF7F; }
+        .border-gold { border-color: #D4AF7F; }
+        .text-dark-gray { color: #1F1F1F; }
+        .bg-bordeaux { background-color: #73262D; }
+        .hover-lift:hover { transform: translateY(-4px); transition: all 0.3s ease; }
+        .gradient-hero { background: linear-gradient(135deg, #F5E6E8 0%, #FAF3EB 100%); }
+        .shadow-elegant { box-shadow: 0 8px 32px rgba(115, 38, 45, 0.08); }
+        .custom-check { color: #D4AF7F; font-size: 1.2rem; }
     </style>
-</head>
-<body>
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <h3><strong>ATENÇÃO</strong>: ESSE <strong>MÉTODO</strong> TEM TRANSFORMADO A FORMA COMO CENTENAS DE MULHERES SE COMUNICAM COM SEUS PARCEIROS</h3>
-        </div>
-    </header>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"><style>
+      body {
+        font-family: 'Inter', sans-serif !important;
+      }
+      
+      /* Preserve Font Awesome icons */
+      .fa, .fas, .far, .fal, .fab {
+        font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+      }
+    </style><style>
+  .highlighted-section {
+    outline: 2px solid #3F20FB;
+    background-color: rgba(63, 32, 251, 0.1);
+  }
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1><strong>Você sente um frio na barriga só de pensar em ter uma conversa séria com o seu parceiro?</strong></h1>
-                    <p>Você tenta conversar, mas tudo vira briga, silêncio ou mágoa?</p>
-                    <p>Você sente que qualquer tentativa de diálogo termina em portas batendo, frases atravessadas ou, pior ainda, no temido silêncio mortal?</p>
-                    <p>Se isso soa familiar, respira fundo.</p>
-                    <p class="emphasis"><strong>Você não está sozinha!</strong></p>
-                    <p class="subtitle"><em>E, mais importante, existe uma saída que funciona.</em></p>
-                    <a href="#" class="cta-button">SIM, EU QUERO SER OUVIDA SEM BRIGAR</a>
-                </div>
-                <div class="hero-image">
-                    <!-- Space for hero image if needed -->
-                </div>
-            </div>
-        </div>
-    </section>
+  .edit-button {
+    position: absolute;
+    z-index: 1000;
+  }
 
-    <!-- Problem Section -->
-    <section class="problem-section">
-        <div class="container">
-            <div class="problem-content">
-                <div class="problem-text fade-in">
-                    <h1><strong>Engolir sapo virou rotina...</strong></h1>
-                    <p>Talvez você tenha aprendido que manter a paz é o mesmo que evitar conflito. Mas, na prática, silenciar o que você sente todos os dias cobra um preço alto:</p>
-                    <ul>
-                        <li><strong>🧠 Ressentimento</strong></li>
-                        <li><strong>💬 Afastamento emocional</strong></li>
-                        <li><strong>💔 E o sentimento de estar com alguém... mas se sentindo sozinha.</strong></li>
-                    </ul>
-                    <p>Mariana sabe bem disso.<br>
-                    Depois de 5 anos de relacionamento, ela estava pronta para desistir. <em>Conversas viravam briga e o silêncio viravam distância.</em></p>
-                    <p>Até que ela descobriu um método simples, direto e surpreendentemente eficaz para transformar conversas difíceis em momentos de conexão real.</p>
-                    <p>O resultado?<br>
-                    Eles se reconectaram!<br>
-                    sem DRs eternas, sem terapia de casal</p>
-                    <a href="#" class="cta-button">SIM, EU QUERO SER OUVIDA SEM BRIGAR</a>
-                </div>
-                <div class="problem-image fade-in">
-                    <img src="./Página de captura_files/6861f6bc7f505_WhatsAppImage2025-06-29at21.48.36.jpeg" alt="Casal em harmonia">
-                </div>
-            </div>
-        </div>
-    </section>
+  ::-webkit-scrollbar {
+    display: none;
+  }
 
-    <!-- Solution Section -->
-    <section class="solution-section">
-        <div class="container">
-            <div class="fade-in">
-                <h3><strong>Conheça o ebook "Diálogo Sem Conflito"</strong></h3>
-                <p class="subtitle">Um guia direto, prático e emocionalmente inteligente para transformar tensões em conversas de reconexão.</p>
-                <p class="emphasis"><em>Sem precisar virar outra pessoa, sem se calar, e sem </em><strong><em>"fingir maturidade zen"</em></strong></p>
+  html, body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  </style></head>
+<body class="font-sans">
+
+<!-- Header -->
+
+
+<!-- Hero Section -->
+<section id="hero-section" class="gradient-hero py-16 px-6">
+    <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-8">
+                <div class="space-y-6">
+                    <h1 class="font-playfair font-bold text-4xl md:text-5xl lg:text-6xl text-bordeaux leading-tight">
+                       O Método Que Salvou o Relacionamento de Mariana – E Está Transformando a Forma Como Milhares de Mulheres Se Comunicam (Sem Gritaria e Sem DRs)
+                    </h1>
+                    <p class="font-inter text-xl md:text-2xl text-dark-gray leading-relaxed">
+                        Você sente aquele frio na barriga só de pensar em ter uma conversa séria com seu parceiro?
+                    </p>
+                    <p class="font-inter text-xl md:text-2xl text-dark-gray leading-relaxed">
+                        Acha que qualquer tentativa de diálogo pode virar mais uma discussão sem fim, cheia de acusações, mágoas antigas… e que termina em portas batendo ou, pior, no tal "silêncio mortal"?
+                    </p>
+                    <p class="font-inter text-xl md:text-2xl text-dark-gray leading-relaxed">
+                        Se sim, respira fundo. Você não está sozinha — e, mais importante, existe uma solução real.
+                    </p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-elegant border-l-4 border-gold">
+                    <p class="font-inter text-lg text-dark-gray italic">
+                        "Pela primeira vez em anos, meu marido me ouviu de verdade. Sem brigas, sem lágrimas, 
+                        apenas uma conversa honesta que mudou tudo entre nós."
+                    </p>
+                    <p class="font-inter text-sm text-bordeaux mt-2 font-semibold">— Mariana, 34 anos</p>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4 items-center">
+                    <button class="bg-bordeaux hover:bg-red-900 text-white font-playfair font-bold text-xl px-8 py-4 rounded-lg transition-all duration-300 shadow-elegant hover-lift w-full sm:w-auto">
+                        QUERO TRANSFORMAR MINHAS CONVERSAS AGORA!
+                    </button>
+                    <div class="flex items-center space-x-2 text-bordeaux">
+                        <i class="fa-solid fa-shield-halved text-gold"></i>
+                        <span class="font-inter text-sm">Garantia de 7 dias</span>
+                    </div>
+                </div>
             </div>
             
-            <div class="ebook-showcase fade-in">
-                <img src="./Página de captura_files/68620a8c8bcb3_DIALOGOSEMCONFLITO.png" alt="Ebook Diálogo Sem Conflito">
-            </div>
-
-            <div class="features-grid">
-                <div class="feature-card fade-in">
-                    <div class="feature-icon">
-                        <img src="./Página de captura_files/6862f8264fd9e_2.png" alt="Técnicas simples">
-                    </div>
-                    <h4><strong>Técnicas simples de serem aplicadas</strong></h4>
-                    <p>Metodologia direto ao ponto, desenvolvido especialmente para quem busca resultados rápidos e eficientes.</p>
-                </div>
-                
-                <div class="feature-card fade-in">
-                    <div class="feature-icon">
-                        <img src="./Página de captura_files/6862f8054d83e_1.png" alt="Escrito por mulher">
-                    </div>
-                    <h4><strong>Escrito por uma mulher que viveu o problema na pele</strong></h4>
-                    <p>Conheça a perspectiva de quem entende seus desafios e oferece soluções reais.</p>
-                </div>
-                
-                <div class="feature-card fade-in">
-                    <div class="feature-icon">
-                        <img src="./Página de captura_files/6862f83664adf_3.png" alt="Sem blá-blá-blá">
-                    </div>
-                    <h4><strong>Sem blá-blá-blá técnico ou linguagem de coach</strong></h4>
-                    <p>Conteúdo prático, com linguagem simples e objetiva, livre de jargões e promessas vazias.</p>
+            <div class="flex justify-center">
+                <div class="relative">
+                    <img class="w-full max-w-md rounded-2xl shadow-elegant" src="images/Gemini_Generated_Image_q3sc0pq3sc0pq3sc.png" alt="woman sitting on bed edge looking thoughtful and melancholic, natural lighting from window, soft pastel tones, age 30-40">
+               
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Method Section -->
-    <section class="method-section">
-        <div class="container">
-            <div class="method-content">
-                <div class="method-text fade-in">
-                    <h3>O Coração da Transformação: <br><br><strong>A Fórmula C.O.N.E.X.Ã.O.</strong></h3>
-                    <div class="method-list">
-                        <p>Você vai aprender uma <strong>metodologia prática</strong> que ensina como:</p>
-                        <div class="check-item">Se preparar emocionalmente antes da conversa</div>
-                        <div class="check-item">Falar o que sente sem soar como cobrança (com a técnica <em>S.E.N.T.I.R.</em>)</div>
-                        <div class="check-item">Ouvir com empatia real, mesmo em momentos tensos</div>
-                        <div class="check-item">Encontrar soluções sem "ganhadores e perdedores"</div>
-                        <div class="check-item">Sair da conversa com leveza e conexão e não com <strong>Arrependimento</strong></div>
-                    </div>
-                    <a href="#" class="cta-button">QUERO USAR A FÓRMULA C.O.N.E.X.Ã.O. NA PRÁTICA</a>
-                </div>
-                <div class="method-image fade-in">
-                    <img src="./Página de captura_files/68620ff7008ea_CONEXAO.png" alt="Fórmula CONEXÃO">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Benefits Section -->
-    <section class="benefits-section">
-        <div class="container">
-            <div class="benefits-content">
-                <div class="benefits-text fade-in">
-                    <h1><strong>Você Vai Entender:</strong></h1>
-                    <div class="benefit-item">Por que evita certas conversas e como superar isso</div>
-                    <div class="benefit-item">Como os padrões da sua infância sabotam sua comunicação hoje</div>
-                    <div class="benefit-item">Como quebrar o ciclo de mágoas acumuladas, sem precisar "revirar o passado"</div>
-                    <a href="#" class="cta-button">EU QUERO ENTENDER</a>
-                </div>
-                <div class="benefits-image fade-in">
-                    <img src="./Página de captura_files/686208249d4c3_MULHER.png" alt="Mulher confiante">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Bonus Section -->
-    <section class="bonus-section">
-        <div class="container">
-            <h2 class="fade-in"><strong>Além do <em>Método</em>, Você Recebe:</strong></h2>
-            <div class="bonus-grid">
-                <div class="bonus-item fade-in">
-                    <div class="bonus-icon">
-                        <img src="./Página de captura_files/686210b1e3dca_CHECKLIST.png" alt="Checklist">
-                    </div>
-                    <div class="bonus-content">
-                        <h3><strong>🎯 Checklist de Conversa Difícil</strong></h3>
-                        <p>Um guia passo a passo para se preparar antes daquela conversa importante</p>
-                    </div>
-                </div>
+<!-- Problem Identification Section -->
+<section id="problem-section" class="bg-champagne py-20 px-6">
+    <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-8">
+                <h2 class="font-playfair font-bold text-4xl text-bordeaux">
+                    Engolir sapo virou rotina…
+                </h2>
                 
-                <div class="bonus-item fade-in">
-                    <div class="bonus-icon">
-                        <img src="./Página de captura_files/6862114db9105_SENTIR.png" alt="Técnica SENTIR">
-                    </div>
-                    <div class="bonus-content">
-                        <h3><strong>💫 Guia da Técnica S.E.N.T.I.R.</strong></h3>
-                        <p>O método mais eficaz para expressar sentimentos sem parecer cobrança</p>
-                    </div>
-                </div>
-                
-                <div class="bonus-item fade-in">
-                    <div class="bonus-icon">
-                        <img src="./Página de captura_files/6862146d42475_CALENDARIO.png" alt="Calendário">
-                    </div>
-                    <div class="bonus-content">
-                        <h3><strong>📅 Calendário de Reconexão</strong></h3>
-                        <p>30 dias de micro-ações para fortalecer a comunicação no dia a dia</p>
-                    </div>
-                </div>
-                
-                <div class="bonus-item fade-in">
-                    <div class="bonus-icon">
-                        <img src="./Página de captura_files/68621cba7babe_ChatGPTImage30dejun.de202502_11_17.png" alt="Mulher Segura">
-                    </div>
-                    <div class="bonus-content">
-                        <h3><strong>🎬 Aula "Como Ser uma Mulher Segura"</strong></h3>
-                        <p>Aprenda a construir uma autoestima inabalável que transforma sua forma de se comunicar</p>
+                <div class="space-y-6 font-inter text-lg text-dark-gray leading-relaxed">
+                    <p>
+                        Você evita certas conversas porque sabe que vão virar briga? Guarda mágoas porque 
+                        "não vale a pena" discutir? Sente que seu parceiro não te entende, não importa 
+                        como você tente explicar?
+                    </p>
+                    
+                    <p>
+                        Talvez você tenha aprendido que "relacionamento dá trabalho" e que brigas são normais. 
+                        Mas e se eu te dissesse que existe uma forma de se comunicar que elimina 99% dos conflitos 
+                        desnecessários?
+                    </p>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-elegant border border-gold">
+                        <p class="font-inter text-lg text-bordeaux font-semibold italic">
+                            "Talvez você tenha aprendido que para ser ouvida, precisa gritar. 
+                            Que para ser levada a sério, precisa chorar. Que para conseguir atenção, 
+                            precisa fazer drama. Mas existe um jeito melhor."
+                        </p>
                     </div>
                 </div>
             </div>
+            
+            <div class="flex justify-center">
+                <img class="w-full max-w-md rounded-2xl shadow-elegant" src="images\Gemini_Generated_Image_9ra1ud9ra1ud9ra1.png" alt="couple sitting on sofa looking away from each other with crossed arms, cold atmosphere, relationship tension">
+            </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Final CTA Section -->
-    <section class="final-cta">
-        <div class="container">
-            <div class="final-cta-content">
-                <h2 class="fade-in">Transforme Sua Comunicação Hoje!</h2>
-                <p class="fade-in">Pare de engolir sapos e comece a ter conversas que fortalecem seu relacionamento</p>
-                
-                <div class="price-box fade-in">
-                    <div class="price">R$ 37</div>
-                    <div class="price-info">Acesso vitalício + Todos os bônus</div>
+<!-- Mariana's Story Section -->
+<section id="mariana-story" class="bg-rose-tea py-20 px-6">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-12">
+            <div class="w-24 h-1 bg-gold mx-auto mb-8"></div>
+            <h2 class="font-playfair font-bold text-4xl text-bordeaux mb-6">
+                A História de Mariana Que Mudou Tudo
+            </h2>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-8">
+                <div class="space-y-6 font-inter text-lg text-dark-gray leading-relaxed">
+                    <p>
+                        Mariana estava casada há 12 anos quando percebeu que ela e o marido eram praticamente estranhos. 
+                        Eles dividiam a mesma casa, a mesma cama, mas não conseguiam ter uma conversa de verdade há meses.
+                    </p>
+                    
+                    <p>
+                        Toda tentativa de diálogo virava discussão. Ele se fechava, ela se frustrava, e o ciclo se repetia. 
+                        Até que Mariana descobriu que o problema não era <em>o que</em> ela falava, 
+                        mas <em>como</em> ela falava.
+                    </p>
+                    
+                    <div class="bg-white p-8 rounded-lg shadow-elegant">
+                        <i class="fa-solid fa-quote-left text-gold text-2xl mb-4"></i>
+                        <p class="font-playfair text-xl text-bordeaux italic mb-4">
+                            "Mariana sabe bem disso. Depois de anos tentando 'consertar' o relacionamento 
+                            com as mesmas estratégias que não funcionavam, ela descobriu que pequenos 
+                            ajustes na comunicação podem gerar transformações gigantescas."
+                        </p>
+                        <i class="fa-solid fa-quote-right text-gold text-2xl float-right"></i>
+                    </div>
                 </div>
-                
-                <a href="#" class="cta-button fade-in">QUERO TRANSFORMAR MINHA COMUNICAÇÃO AGORA</a>
-                
-                <p class="fade-in" style="margin-top: 30px; font-size: 16px; opacity: 0.8;">
-                    🔒 Compra 100% segura • 📧 Acesso imediato por e-mail
+            </div>
+            
+            <div class="flex justify-center">
+                <img class="w-full max-w-md rounded-2xl shadow-elegant" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/fff12e3558-7dfffb478b9c8619e24f.png" alt="woman looking out window with hopeful expression, golden afternoon light, peaceful atmosphere, age 30-40">
+            </div>
+        </div>
+        
+        <div class="mt-12 bg-white p-8 rounded-lg shadow-elegant border-l-4 border-gold">
+            <p class="font-inter text-xl text-dark-gray leading-relaxed">
+                <strong>O resultado?</strong> Eles se reconectaram de uma forma que Mariana nem imaginava ser possível. 
+                Sem terapia de casal, sem livros complicados, sem mudanças drásticas. 
+                Apenas aplicando um método simples que qualquer mulher pode usar.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Product Presentation Section -->
+<section id="product-presentation" class="bg-champagne py-20 px-6">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="font-playfair font-bold text-4xl text-bordeaux mb-6">
+                📘 Conheça o ebook 'Diálogo Sem Conflito'
+            </h2>
+            <p class="font-inter text-xl text-dark-gray max-w-3xl mx-auto">
+                O método completo que está transformando relacionamentos em todo o Brasil
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <div class="bg-white p-8 rounded-lg shadow-elegant text-center hover-lift">
+                <div class="w-16 h-16 bg-gold rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fa-solid fa-heart text-bordeaux text-2xl"></i>
+                </div>
+                <h3 class="font-playfair font-bold text-xl text-bordeaux mb-4">Simples de Aplicar</h3>
+                <p class="font-inter text-dark-gray">
+                    Técnicas práticas que você pode usar imediatamente, sem complicações ou teorias complexas
+                </p>
+            </div>
+            
+            <div class="bg-white p-8 rounded-lg shadow-elegant text-center hover-lift">
+                <div class="w-16 h-16 bg-gold rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fa-solid fa-venus text-bordeaux text-2xl"></i>
+                </div>
+                <h3 class="font-playfair font-bold text-xl text-bordeaux mb-4">Escrito por Mulher</h3>
+                <p class="font-inter text-dark-gray">
+                    Criado especificamente para mulheres, por alguém que entende seus desafios únicos
+                </p>
+            </div>
+            
+            <div class="bg-white p-8 rounded-lg shadow-elegant text-center hover-lift">
+                <div class="w-16 h-16 bg-gold rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fa-solid fa-target text-bordeaux text-2xl"></i>
+                </div>
+                <h3 class="font-playfair font-bold text-xl text-bordeaux mb-4">Sem Blá-blá-blá</h3>
+                <p class="font-inter text-dark-gray">
+                    Direto ao ponto, com estratégias testadas e aprovadas por centenas de mulheres
                 </p>
             </div>
         </div>
-    </section>
+        
+        <div class="text-center">
+            <img class="w-full max-w-lg mx-auto rounded-2xl shadow-elegant" src="images\Gemini_Generated_Image_u6cc2ju6cc2ju6cc.png" alt="3D ebook mockup with elegant cover design, surrounded by floating bonus icons, professional product visualization">
+        </div>
+    </div>
+</section>
 
-    <script>
-        // Fade in animation on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+<!-- C.O.N.E.X.Ã.O Formula Section -->
+<section id="conexao-formula" class="bg-rose-tea py-20 px-6">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="font-playfair font-bold text-4xl text-bordeaux mb-6">
+                💡 O Coração da Transformação: A Fórmula C.O.N.E.X.Ã.O.
+            </h2>
+            <p class="font-inter text-xl text-dark-gray max-w-3xl mx-auto">
+                Sete passos simples que vão revolucionar a forma como você se comunica
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-6 mb-16">
+            <div class="bg-white p-6 rounded-full text-center shadow-elegant border-2 border-gold hover-lift">
+                <div class="w-16 h-16 bg-bordeaux rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="font-playfair font-bold text-2xl text-white">C</span>
+                </div>
+                <h3 class="font-playfair font-bold text-bordeaux mb-2">Conectar</h3>
+                <p class="font-inter text-sm text-dark-gray">Primeiro, criamos a conexão emocional</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-full text-center shadow-elegant border-2 border-gold hover-lift">
+                <div class="w-16 h-16 bg-bordeaux rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="font-playfair font-bold text-2xl text-white">O</span>
+                </div>
+                <h3 class="font-playfair font-bold text-bordeaux mb-2">Observar</h3>
+                <p class="font-inter text-sm text-dark-gray">Percebemos sem julgar</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-full text-center shadow-elegant border-2 border-gold hover-lift">
+                <div class="w-16 h-16 bg-bordeaux rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="font-playfair font-bold text-2xl text-white">N</span>
+                </div>
+                <h3 class="font-playfair font-bold text-bordeaux mb-2">Nomear</h3>
+                <p class="font-inter text-sm text-dark-gray">Identificamos as emoções</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-full text-center shadow-elegant border-2 border-gold hover-lift">
+                <div class="w-16 h-16 bg-bordeaux rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="font-playfair font-bold text-2xl text-white">E</span>
+                </div>
+                <h3 class="font-playfair font-bold text-bordeaux mb-2">Expressar</h3>
+                <p class="font-inter text-sm text-dark-gray">Comunicamos com clareza</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-full text-center shadow-elegant border-2 border-gold hover-lift">
+                <div class="w-16 h-16 bg-bordeaux rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="font-playfair font-bold text-2xl text-white">X</span>
+                </div>
+                <h3 class="font-playfair font-bold text-bordeaux mb-2">eXplorar</h3>
+                <p class="font-inter text-sm text-dark-gray">Buscamos soluções juntos</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-full text-center shadow-elegant border-2 border-gold hover-lift">
+                <div class="w-16 h-16 bg-bordeaux rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="font-playfair font-bold text-2xl text-white">Ã</span>
+                </div>
+                <h3 class="font-playfair font-bold text-bordeaux mb-2">Ação</h3>
+                <p class="font-inter text-sm text-dark-gray">Definimos os próximos passos</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-full text-center shadow-elegant border-2 border-gold hover-lift">
+                <div class="w-16 h-16 bg-bordeaux rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="font-playfair font-bold text-2xl text-white">O</span>
+                </div>
+                <h3 class="font-playfair font-bold text-bordeaux mb-2">Otimizar</h3>
+                <p class="font-inter text-sm text-dark-gray">Melhoramos continuamente</p>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white p-6 rounded-lg shadow-elegant hover-lift">
+                <i class="fa-solid fa-check custom-check mb-3"></i>
+                <h3 class="font-inter font-semibold text-bordeaux mb-2">Elimine as brigas desnecessárias</h3>
+                <p class="font-inter text-dark-gray">Aprenda a identificar e resolver conflitos antes que se tornem discussões</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-lg shadow-elegant hover-lift">
+                <i class="fa-solid fa-check custom-check mb-3"></i>
+                <h3 class="font-inter font-semibold text-bordeaux mb-2">Seja ouvida e compreendida</h3>
+                <p class="font-inter text-dark-gray">Técnicas para garantir que sua mensagem chegue da forma correta</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-lg shadow-elegant hover-lift">
+                <i class="fa-solid fa-check custom-check mb-3"></i>
+                <h3 class="font-inter font-semibold text-bordeaux mb-2">Fortaleça a intimidade emocional</h3>
+                <p class="font-inter text-dark-gray">Crie conexões mais profundas através da comunicação consciente</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-lg shadow-elegant hover-lift">
+                <i class="fa-solid fa-check custom-check mb-3"></i>
+                <h3 class="font-inter font-semibold text-bordeaux mb-2">Transforme críticas em pedidos</h3>
+                <p class="font-inter text-dark-gray">Aprenda a expressar necessidades sem soar como cobrança</p>
+            </div>
+        </div>
+    </div>
+</section>
 
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
+<!-- Understanding Section -->
+<section id="understanding-section" class="bg-champagne py-20 px-6">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="font-playfair font-bold text-4xl text-bordeaux mb-6">
+                🧠 Você Vai Entender:
+            </h2>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white p-8 rounded-lg shadow-elegant text-center hover-lift">
+                <div class="w-20 h-20 bg-gold rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fa-solid fa-brain text-bordeaux text-3xl"></i>
+                </div>
+                <h3 class="font-playfair font-bold text-xl text-bordeaux mb-4">Por que seu cérebro sabota suas conversas</h3>
+                <p class="font-inter text-dark-gray">
+                    Descubra os mecanismos neurológicos que fazem você reagir em vez de responder, 
+                    e como reprogramar essas reações automáticas.
+                </p>
+            </div>
+            
+            <div class="bg-white p-8 rounded-lg shadow-elegant text-center hover-lift">
+                <div class="w-20 h-20 bg-gold rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fa-solid fa-users text-bordeaux text-3xl"></i>
+                </div>
+                <h3 class="font-playfair font-bold text-xl text-bordeaux mb-4">Como padrões familiares afetam seu relacionamento</h3>
+                <p class="font-inter text-dark-gray">
+                    Identifique comportamentos herdados da sua família de origem que podem estar 
+                    prejudicando sua comunicação atual.
+                </p>
+            </div>
+            
+            <div class="bg-white p-8 rounded-lg shadow-elegant text-center hover-lift">
+                <div class="w-20 h-20 bg-gold rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fa-solid fa-sync-alt text-bordeaux text-3xl"></i>
+                </div>
+                <h3 class="font-playfair font-bold text-xl text-bordeaux mb-4">O ciclo vicioso das discussões repetitivas</h3>
+                <p class="font-inter text-dark-gray">
+                    Entenda por que vocês sempre brigam pelas mesmas coisas e como quebrar 
+                    esse padrão de uma vez por todas.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
 
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
+<!-- Bonus Section -->
+<section id="bonus-section" class="bg-rose-tea py-20 px-6">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <div class="inline-block bg-gold text-bordeaux px-6 py-3 rounded-full font-playfair font-bold text-xl mb-6">
+                🎁 Além do Ebook, Você Recebe:
+            </div>
+            <h2 class="font-playfair font-bold text-3xl text-bordeaux">
+                Bônus Exclusivos Para Acelerar Sua Transformação
+            </h2>
+            <p class="font-inter text-lg text-dark-gray mt-4">
+                Valor total dos bônus: <span class="line-through opacity-70">R$ 247</span> - 
+                <span class="text-bordeaux font-bold">Seu hoje GRÁTIS</span>
+            </p>
+        </div>
+        
+        <div class="space-y-6">
+            <div class="bg-white p-8 rounded-lg shadow-elegant flex items-center space-x-6 hover-lift">
+                <div class="w-16 h-16 bg-gold rounded-full flex items-center justify-center flex-shrink-0">
+                    <i class="fa-solid fa-list-check text-bordeaux text-2xl"></i>
+                </div>
+                <div class="flex-1">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-playfair font-bold text-xl text-bordeaux">Checklist de Preparação Para Conversas Difíceis</h3>
+                        <span class="bg-champagne text-bordeaux px-3 py-1 rounded-full font-inter text-sm font-semibold">R$ 47</span>
+                    </div>
+                    <p class="font-inter text-dark-gray">
+                        Um guia passo a passo para se preparar mentalmente e emocionalmente antes de abordar temas sensíveis, 
+                        garantindo que você mantenha a calma e o foco.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="bg-white p-8 rounded-lg shadow-elegant flex items-center space-x-6 hover-lift">
+                <div class="w-16 h-16 bg-gold rounded-full flex items-center justify-center flex-shrink-0">
+                    <i class="fa-solid fa-comments text-bordeaux text-2xl"></i>
+                </div>
+                <div class="flex-1">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-playfair font-bold text-xl text-bordeaux">Modelo S.E.N.T.I.R. de Comunicação Empática</h3>
+                        <span class="bg-champagne text-bordeaux px-3 py-1 rounded-full font-inter text-sm font-semibold">R$ 67</span>
+                    </div>
+                    <p class="font-inter text-dark-gray">
+                        Uma ferramenta prática para expressar seus sentimentos de forma que seu parceiro realmente 
+                        entenda e se conecte com você, sem defensividade.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="bg-white p-8 rounded-lg shadow-elegant flex items-center space-x-6 hover-lift">
+                <div class="w-16 h-16 bg-gold rounded-full flex items-center justify-center flex-shrink-0">
+                    <i class="fa-solid fa-calendar-days text-bordeaux text-2xl"></i>
+                </div>
+                <div class="flex-1">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-playfair font-bold text-xl text-bordeaux">Desafio de 21 Dias: Transforme Sua Comunicação</h3>
+                        <span class="bg-champagne text-bordeaux px-3 py-1 rounded-full font-inter text-sm font-semibold">R$ 57</span>
+                    </div>
+                    <p class="font-inter text-dark-gray">
+                        Exercícios diários simples e progressivos para incorporar as técnicas do método C.O.N.E.X.Ã.O. 
+                        na sua rotina e ver resultados reais.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="bg-white p-8 rounded-lg shadow-elegant flex items-center space-x-6 hover-lift">
+                <div class="w-16 h-16 bg-gold rounded-full flex items-center justify-center flex-shrink-0">
+                    <i class="fa-solid fa-book-heart text-bordeaux text-2xl"></i>
+                </div>
+                <div class="flex-1">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-playfair font-bold text-xl text-bordeaux">Diário de Gratidão + Cartões de Afirmação</h3>
+                        <span class="bg-champagne text-bordeaux px-3 py-1 rounded-full font-inter text-sm font-semibold">R$ 37</span>
+                    </div>
+                    <p class="font-inter text-dark-gray">
+                        Ferramentas para fortalecer sua autoestima e manter uma mentalidade positiva durante 
+                        o processo de transformação do seu relacionamento.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="bg-white p-8 rounded-lg shadow-elegant flex items-center space-x-6 hover-lift">
+                <div class="w-16 h-16 bg-gold rounded-full flex items-center justify-center flex-shrink-0">
+                    <i class="fa-solid fa-headphones text-bordeaux text-2xl"></i>
+                </div>
+                <div class="flex-1">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-playfair font-bold text-xl text-bordeaux">QR Code com Áudios de Meditação Guiada</h3>
+                        <span class="bg-champagne text-bordeaux px-3 py-1 rounded-full font-inter text-sm font-semibold">R$ 39</span>
+                    </div>
+                    <p class="font-inter text-dark-gray">
+                        Sessões de relaxamento e centramento para você usar antes de conversas importantes, 
+                        garantindo que você esteja no melhor estado emocional.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-12 bg-white p-8 rounded-lg shadow-elegant text-center">
+            <div class="flex items-center justify-center space-x-4 mb-4">
+                <span class="font-inter text-2xl text-dark-gray">Ebook + Todos os Bônus:</span>
+                <span class="font-playfair text-3xl text-dark-gray line-through opacity-70">R$ 344</span>
+            </div>
+            <div class="flex items-center justify-center space-x-4">
+                <span class="font-inter text-xl text-bordeaux">Seu investimento hoje:</span>
+                <span class="font-playfair text-5xl text-bordeaux font-bold">R$ 37</span>
+            </div>
+            <p class="font-inter text-sm text-dark-gray mt-4 italic">
+                Economia de R$ 307 - Oferta válida apenas para as primeiras 100 leitoras
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Social Proof Section -->
+<section id="social-proof" class="bg-champagne py-20 px-6">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="font-playfair font-bold text-4xl text-bordeaux mb-6">
+                💬 E não é só Mariana…
+            </h2>
+            <p class="font-inter text-xl text-dark-gray">
+                Centenas de mulheres já transformaram seus relacionamentos
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <div class="text-center">
+                <div class="font-playfair font-bold text-6xl text-bordeaux mb-2">143</div>
+                <p class="font-inter text-lg text-dark-gray">Mulheres testaram o método</p>
+            </div>
+            <div class="text-center">
+                <div class="font-playfair font-bold text-6xl text-bordeaux mb-2">89%</div>
+                <p class="font-inter text-lg text-dark-gray">Viram resultados em 72 horas</p>
+            </div>
+            <div class="text-center">
+                <div class="font-playfair font-bold text-6xl text-gold mb-2">72h</div>
+                <p class="font-inter text-lg text-dark-gray">Tempo médio para a primeira mudança</p>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <div class="bg-white p-8 rounded-lg shadow-elegant">
+                <div class="flex items-center mb-4">
+                    <img src="images\pessoas\Gemini_Generated_Image_1d4t831d4t831d4t.png" alt="Ana Paula" class="w-12 h-12 rounded-full mr-4">
+                    <div>
+                        <h4 class="font-inter font-semibold text-bordeaux">Ana Paula, 36 anos</h4>
+                        <p class="font-inter text-sm text-dark-gray">Casada há 8 anos</p>
+                    </div>
+                </div>
+                <p class="font-inter text-dark-gray italic">
+                    "Em 3 dias aplicando o método, meu marido me perguntou: 'O que aconteceu com você? 
+                    Você está diferente, mais calma.' Foi a primeira vez que conseguimos conversar sobre 
+                    dinheiro sem brigar."
+                </p>
+            </div>
+            
+            <div class="bg-white p-8 rounded-lg shadow-elegant">
+                <div class="flex items-center mb-4">
+                    <img src="images\pessoas\Gemini_Generated_Image_hp3wgwhp3wgwhp3w.png" alt="Carolina" class="w-12 h-12 rounded-full mr-4">
+                    <div>
+                        <h4 class="font-inter font-semibold text-bordeaux">Carolina, 42 anos</h4>
+                        <p class="font-inter text-sm text-dark-gray">Relacionamento de 5 anos</p>
+                    </div>
+                </div>
+                <p class="font-inter text-dark-gray italic">
+                    "Pensei que íamos terminar. Não conseguíamos mais conversar sem discutir. 
+                    O método me ensinou que o problema não era o que eu falava, mas como eu falava. 
+                    Hoje somos mais unidos que nunca."
+                </p>
+            </div>
+        </div>
+        
+        <div class="flex justify-center">
+            <div class="grid grid-cols-4 gap-4">
+                <img src="images\pessoas\Gemini_Generated_Image_1d4t831d4t831d4t (1).png" alt="Cliente" class="w-16 h-16 rounded-full border-2 border-gold">
+                <img src="images\pessoas\Gemini_Generated_Image_1d4t831d4t831d4t (2).png" alt="Cliente" class="w-16 h-16 rounded-full border-2 border-gold">
+                <img src="images\pessoas\Gemini_Generated_Image_1d4t831d4t831d4t (3).png" alt="Cliente" class="w-16 h-16 rounded-full border-2 border-gold">
+                <img src="images\pessoas\Gemini_Generated_Image_gn5a23gn5a23gn5a.png" alt="Cliente" class="w-16 h-16 rounded-full border-2 border-gold">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Results Section -->
+<section id="results-section" class="bg-rose-tea py-20 px-6">
+    <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-8">
+                <h2 class="font-playfair font-bold text-4xl text-bordeaux">
+                    ✨ Resultados que Você Pode Esperar:
+                </h2>
+                
+                <div class="space-y-4">
+                    <div class="flex items-start space-x-4">
+                        <i class="fa-solid fa-check custom-check mt-1"></i>
+                        <p class="font-inter text-lg text-dark-gray">
+                            <strong>Conversas mais calmas e produtivas</strong> - Sem gritos, sem lágrimas, apenas diálogo respeitoso
+                        </p>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                        <i class="fa-solid fa-check custom-check mt-1"></i>
+                        <p class="font-inter text-lg text-dark-gray">
+                            <strong>Maior intimidade emocional</strong> - Vocês vão se sentir mais conectados e compreendidos
+                        </p>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                        <i class="fa-solid fa-check custom-check mt-1"></i>
+                        <p class="font-inter text-lg text-dark-gray">
+                            <strong>Resolução eficaz de conflitos</strong> - Problemas resolvidos em vez de varridos para debaixo do tapete
+                        </p>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                        <i class="fa-solid fa-check custom-check mt-1"></i>
+                        <p class="font-inter text-lg text-dark-gray">
+                            <strong>Menos estresse e ansiedade</strong> - Você não vai mais ter medo de abordar assuntos importantes
+                        </p>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                        <i class="fa-solid fa-check custom-check mt-1"></i>
+                        <p class="font-inter text-lg text-dark-gray">
+                            <strong>Parceiro mais presente e atencioso</strong> - Ele vai querer participar mais das conversas
+                        </p>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                        <i class="fa-solid fa-check custom-check mt-1"></i>
+                        <p class="font-inter text-lg text-dark-gray">
+                            <strong>Relacionamento mais forte e duradouro</strong> - Base sólida para enfrentar qualquer desafio juntos
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex justify-center">
+                <img class="w-full max-w-md rounded-2xl shadow-elegant" src="images\Gemini_Generated_Image_v18ue6v18ue6v18u.png" alt="happy mature couple embracing and smiling, cozy home environment, warm soft lighting, genuine connection">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Guarantee Section -->
+<section id="guarantee-section" class="bg-champagne py-20 px-6">
+    <div class="max-w-4xl mx-auto text-center">
+        <div class="bg-white p-12 rounded-2xl shadow-elegant">
+            <div class="w-24 h-24 bg-gold rounded-full flex items-center justify-center mx-auto mb-8">
+                <i class="fa-solid fa-shield-halved text-bordeaux text-4xl"></i>
+            </div>
+            
+            <h2 class="font-playfair font-bold text-3xl text-bordeaux mb-6">
+                🔐 Garantia Incondicional de 7 Dias
+            </h2>
+            
+            <p class="font-inter text-xl text-dark-gray leading-relaxed mb-8">
+                Estou tão confiante de que o método vai funcionar para você que ofereço uma garantia 
+                incondicional de 7 dias. Se por qualquer motivo você não ficar satisfeita, 
+                devolvemos 100% do seu investimento. Sem perguntas, sem complicações.
+            </p>
+            
+            <div class="bg-rose-tea p-6 rounded-lg">
+                <p class="font-inter text-bordeaux font-semibold">
+                    Você não tem nada a perder, apenas um relacionamento mais feliz para ganhar.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Final Offer and CTA Section -->
+<section id="final-cta" class="bg-gradient-to-br from-rose-tea to-champagne py-20 px-6">
+    <div class="max-w-4xl mx-auto text-center">
+        <div class="mb-12">
+            <div class="inline-block bg-bordeaux text-white px-6 py-3 rounded-full font-inter font-bold text-lg mb-6">
+                ⏳ Oferta Especial por Tempo Limitado
+            </div>
+            
+            <h2 class="font-playfair font-bold text-4xl text-bordeaux mb-6">
+                Transforme Suas Conversas Hoje Mesmo
+            </h2>
+            
+            <p class="font-inter text-xl text-dark-gray mb-8">
+                Por apenas <span class="line-through opacity-70">R$ 97</span>
+            </p>
+            
+            <div class="text-6xl font-playfair font-bold text-bordeaux mb-8">
+                R$ 37
+            </div>
+            
+            <p class="font-inter text-lg text-dark-gray mb-12">
+                Menos que o preço de um jantar para dois. Investimento único para uma vida inteira de conversas melhores.
+            </p>
+        </div>
+        
+        <div class="space-y-6">
+            <button class="bg-bordeaux hover:bg-red-900 text-white font-playfair font-bold text-2xl px-12 py-6 rounded-lg transition-all duration-300 shadow-elegant hover-lift w-full max-w-2xl">
+                QUERO TRANSFORMAR MINHAS CONVERSAS AGORA!
+            </button>
+            
+            <div class="flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-6 text-dark-gray">
+                <div class="flex items-center">
+                    <i class="fa-solid fa-shield-halved mr-2 text-gold"></i>
+                    <span class="font-inter text-sm">Garantia de 7 dias</span>
+                </div>
+                <div class="flex items-center">
+                    <i class="fa-solid fa-lock mr-2 text-gold"></i>
+                    <span class="font-inter text-sm">Compra 100% segura</span>
+                </div>
+                <div class="flex items-center">
+                    <i class="fa-solid fa-download mr-2 text-gold"></i>
+                    <span class="font-inter text-sm">Acesso imediato</span>
+                </div>
+            </div>
+            
+            <div class="flex justify-center space-x-4">
+                <i class="fa-brands fa-cc-visa text-bordeaux text-2xl"></i>
+                <i class="fa-brands fa-cc-mastercard text-bordeaux text-2xl"></i>
+                <i class="fa-brands fa-cc-paypal text-bordeaux text-2xl"></i>
+                <i class="fa-brands fa-pix text-bordeaux text-2xl"></i>
+            </div>
+        </div>
+        
+    
+    </div>
+</section>
+
+<!-- Footer/P.S. Section -->
+<footer id="footer" class="bg-champagne py-16 px-6">
+    <div class="max-w-4xl mx-auto text-center">
+        <div class="mb-12">
+            <i class="fa-solid fa-quote-left text-gold text-3xl mb-4"></i>
+            <p class="font-playfair text-2xl text-bordeaux italic leading-relaxed mb-4">
+                "P.S.: Lembre-se, todo dia que passa sem aplicar essas técnicas é um dia a mais 
+                de conversas frustrantes e oportunidades perdidas de conexão real com seu parceiro. 
+                A Mariana esperou 12 anos para descobrir isso. Você não precisa esperar nem mais um dia."
+            </p>
+            <i class="fa-solid fa-quote-right text-gold text-3xl"></i>
+        </div>
+        
+        <div class="border-t border-gold pt-8">
+            <p class="font-inter text-dark-gray text-sm">
+                © 2025 Diálogo Sem Conflito. Todos os direitos reservados. 
+                Este produto não garante resultados específicos e os resultados podem variar de pessoa para pessoa.
+            </p>
+        </div>
+    </div>
+</footer>
+
+<script>
+// Smooth scrolling for CTA buttons
+document.addEventListener('DOMContentLoaded', function() {
+    const ctaButtons = document.querySelectorAll('button');
+    ctaButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Add click animation
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 150);
         });
-
-        // Smooth scroll for CTA buttons
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
+    });
+    
+    // Add scroll animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
         });
+    }, observerOptions);
+    
+    // Observe all sections for animation
+    const sections = document.querySelectorAll('section');
+    sections.forEach(section => {
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(30px)';
+        section.style.transition = 'all 0.8s ease-out';
+        observer.observe(section);
+    });
+});
+</script>
 
-        // Parallax effect for hero section
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const hero = document.querySelector('.hero');
-            hero.style.transform = `translateY(${scrolled * 0.5}px)`;
-        });
-    </script>
-</body>
-</html>
+
+</body></html>
